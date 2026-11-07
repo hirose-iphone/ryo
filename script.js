@@ -12,7 +12,10 @@ function updateClock() {
   const time = now.toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit", hour12: false });
   $("status-time").textContent = time;
   $("lock-time").textContent = time;
-  $("lock-date").textContent = now.toLocaleDateString("ko-KR", { weekday: "long", month: "long", day: "numeric" });
+  const dateText = now.toLocaleDateString("ko-KR", { weekday: "long", month: "long", day: "numeric" });
+  $("lock-date").textContent = dateText;
+  const homeDate = $("home-date");
+  if (homeDate) homeDate.textContent = dateText;
 }
 updateClock();
 setInterval(updateClock, 1000);
@@ -52,7 +55,7 @@ const appTemplates = {
     <div class="chat-input"><input id="message-input" placeholder="iMessage"><button class="primary" id="send-message">전송</button></div>`,
   photos: () => `<p class="muted">YOUR LIBRARY</p><h2>Photos</h2><div class="photo-grid"><div class="photo-tile">☁️</div><div class="photo-tile">🌷</div><div class="photo-tile">🌿</div><div class="photo-tile">🌙</div><div class="photo-tile">🫧</div><div class="photo-tile">🕊️</div></div><p class="muted">샘플 이미지 타일이야. 나중에 네 사진으로 바꿀 수 있어.</p>`,
   notes: () => `<p class="muted">ICLOUD NOTES · DEMO</p><h2>Notes</h2><div class="card"><b>오늘의 메모</b><p class="muted">여기에 자유롭게 메모해 봐.</p><textarea id="note-text" placeholder="무엇이든 적어 봐..."></textarea><button class="primary" id="save-note" style="margin-top:10px">메모 저장</button><p class="muted" id="note-status"></p></div>`,
-  calendar: () => `<p class="muted">YOUR SCHEDULE</p><h2>Calendar</h2><div class="card center"><p class="muted">NOVEMBER</p><div class="big-number">07</div><b>Saturday</b><p class="muted">오늘은 어떤 계획이 있어?</p></div><div class="card"><b>Upcoming</b><div class="list-row">♡　친구 만나기 <span class="muted">3:00 PM</span></div><div class="list-row">☁　나만의 시간 <span class="muted">7:00 PM</span></div></div>`,
+  calendar: () => `<p class="muted">YOUR SCHEDULE</p><h2>Calendar</h2><div class="card center"><p class="muted">${new Date().toLocaleDateString("en-US", { month: "long" }).toUpperCase()}</p><div class="big-number">${String(new Date().getDate()).padStart(2,"0")}</div><b>${new Date().toLocaleDateString("en-US", { weekday: "long" })}</b><p class="muted">오늘은 어떤 계획이 있어?</p></div><div class="card"><b>Upcoming</b><div class="list-row">♡　친구 만나기 <span class="muted">3:00 PM</span></div><div class="list-row">☁　나만의 시간 <span class="muted">7:00 PM</span></div></div>`,
   music: () => `<p class="muted">NOW PLAYING</p><h2>Music</h2><div class="track-art">♫</div><div class="center"><b>Little Moments</b><p class="muted">Your demo playlist</p><button class="player-button" id="play-button">▶</button><p class="muted" id="play-status">재생 버튼을 눌러 봐</p></div>`,
   weather: () => `<p class="muted">LOCAL WEATHER · SAMPLE</p><h2>Weather</h2><div class="card center"><div style="font-size:58px">☀️</div><div class="big-number">22°</div><b>맑음</b><p class="muted">가상의 날씨 정보</p></div><div class="card">오늘은 산책하기 좋은 날처럼 느껴져요.</div>`,
   phone: () => `<p class="muted">FAVOURITES</p><h2>Phone</h2><div class="list-row"><div class="avatar">J</div><div><b>Jamie</b><div class="muted">Mobile</div></div></div><div class="list-row"><div class="avatar">M</div><div><b>Min</b><div class="muted">Mobile</div></div></div><div class="center"><p class="muted" id="dial-number">가상 키패드</p><div class="keypad">${["1","2","3","4","5","6","7","8","9","*","0","#"].map(n=>`<button class="dial-key">${n}</button>`).join("")}</div><p class="muted">실제 전화는 연결되지 않아.</p></div>`,
